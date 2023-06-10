@@ -1,0 +1,157 @@
+1) Rotate Matrix 
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        for(int i=0; i<n; ++i) {
+            for(int j=i; j<n; ++j) {
+                swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+
+        for(int i=0; i<n; ++i) {
+		// 2 Pointer approach :  just like we do in 1D array we take left and right pointers
+		// and swap the values and then make those pointers intersect at some point.
+            int left = 0, right = n-1;
+            while(left < right) {
+                swap(matrix[i][left], matrix[i][right]);
+                ++left;
+                --right;
+            }
+    }
+}
+};
+--------------------------------------------------------
+2) Merge Intervals 
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        
+        sort(intervals.begin(),intervals.end()); 
+
+        int n = intervals.size();
+        vector<vector<int>>ans;
+
+        for(int i=0;i<n;i++)
+        { 
+            if(ans.empty())
+            { 
+                ans.push_back(intervals[i]);
+            }
+            
+
+            vector<int>&v = ans.back(); //storing end value of previous
+            int y = v[1];
+
+            if(intervals[i][0] <=y)
+            { 
+                v[1] = max(intervals[i][1],y); //changed 
+                
+            } 
+
+            else{ 
+
+                ans.push_back(intervals[i]);
+            }
+
+        }
+            return ans; 
+    }
+};
+-----------------------------------------------------------
+3) Merge Sorted Array 
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int i = m-1;
+        int j = n-1;
+        int k = m+n-1;
+        while(i>=0 && j>=0){
+            if(nums1[i] > nums2[j]){
+                nums1[k] = nums1[i];
+                i--; k--;
+            }
+            else{
+                nums1[k] = nums2[j];
+                j--; k--;
+            }
+        }
+        while(j>=0){
+            nums1[k] = nums2[j];
+            j--; k--;
+        }
+    
+    }
+};
+------------------------------------------------------------------
+4) Find Duplicate Number 
+A1)
+#include <vector>
+#include <cmath>
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        for (int i = 0; i < nums.size(); i++) {
+            int index = abs(nums[i]) - 1;
+            if (nums[index] < 0) {
+                return abs(nums[i]);
+            } else {
+                nums[index] = -nums[index];
+            }
+        }
+        return -1;  // If no duplicate is found
+    }
+};
+
+A2)int floydSolution(vector<int>& nums) {
+        // Each index is taken 1 based, as if it is zero based, then
+        // for nums[2] = 3, if we goto nums[nums[2] - 1], it is again nums[2]
+        // infinite loop
+        int hare = nums[0], tortoise = nums[0];
+        
+        do {
+            hare = nums[nums[hare]];
+            tortoise = nums[tortoise];
+        } while(hare != tortoise);
+        
+        // to find the starting of cycle, make tortoise to start from begining
+        tortoise = nums[0];
+        while(hare != tortoise) {
+            hare = nums[hare];
+            tortoise = nums[tortoise];
+        }
+        
+        return hare;
+    }
+    ------------------------------------------------------------------------
+5) Repeat  and Missing Number 
+#include <bits/stdc++.h>
+using namespace std;
+ 
+void printTwoElements(int arr[], int size)
+{
+    int i;
+    cout << "The repeating element is ";
+ 
+    for (i = 0; i < size; i++) {
+        if (arr[abs(arr[i]) - 1] > 0)
+            arr[abs(arr[i]) - 1] = -arr[abs(arr[i]) - 1];
+        else
+            cout << abs(arr[i]) << "\n";
+    }
+ 
+    cout << "and the missing element is ";
+    for (i = 0; i < size; i++) {
+        if (arr[i] > 0)
+            cout << (i + 1);
+    }
+}
+
+------------------------------------------------------------------------
+6) Inversion of Array using Merge sort 
+-- have to learn merge sort
+-- question is same as merge sort but we have to count when the condition satifies
+
+
+    
