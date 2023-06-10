@@ -1,0 +1,151 @@
+1) 2sum 
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<pair<int,int>> temp;
+        for(int i=0;i<nums.size();i++){
+            temp.push_back({nums[i],i});
+        }
+        sort(temp.begin(),temp.end());
+        int x=0,y=nums.size()-1;
+        while(x<y){
+            int sum=temp[x].first+temp[y].first;
+            if(sum==target)
+                return {temp[x].second,temp[y].second};
+            else if(sum<target)
+                x++;
+            else{
+                y--;
+            }
+        }
+        return {-1,-1};
+    }
+};
+------------------------------------------------------------------
+2) 4SUM 
+- remaining 
+-------------------------------
+3) LCS 
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        
+        unordered_set<int>s; 
+       
+        int n = nums.size();
+        int ans = 0;
+        for(int i =0;i<n;i++){
+        s.insert(nums[i]); 
+        }
+        for(int i=0;i<n;i++)
+        { 
+            if(s.find(nums[i]-1) != s.end())
+            continue;
+
+            else
+            { 
+                int count=0;
+                int current = nums[i];
+                while(s.find(current) != s.end())
+                { 
+                    current++; 
+                    count++;
+                  
+                }
+                ans = max(ans,count);
+            }
+        }
+        return ans;
+    }
+};
+--------------------------------------------------------------
+4) Largest subarray with k sum 
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        
+        unordered_set<int>s; 
+       
+        int n = nums.size();
+        int ans = 0;
+        for(int i =0;i<n;i++){
+        s.insert(nums[i]); 
+        }
+        for(int i=0;i<n;i++)
+        { 
+            if(s.find(nums[i]-1) != s.end())
+            continue;
+
+            else
+            { 
+                int count=0;
+                int current = nums[i];
+                while(s.find(current) != s.end())
+                { 
+                    current++; 
+                    count++;
+                  
+                }
+                ans = max(ans,count);
+            }
+        }
+        return ans;
+    }
+};
+-------------------------------------------------------------
+5) Not done 
+------------------------
+6) Longest Substring Without Repeating Characters
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char,int>mpp;
+        int left =0 , right =0;
+        int n = s.size();
+        int len =0;
+        while(right < n){
+            if(mpp.find(s[right]) != mpp.end()){ 
+            left = max(mpp[s[right]] + 1, left);
+            }
+            
+            
+            mpp[s[right]] = right;
+            len = max(len, right -left+1 );
+            right++;
+            
+        }
+        return len;
+    }
+};
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        set<int> st;
+        int len=s.length();
+        int r=0; int l=0;
+        int ans=0;
+        
+        while(r<len){
+            // 1st condition where the element is not present inside the set
+            auto it=st.find(s[r]);
+            if(it==st.end()){
+                st.insert(s[r]);
+                ans=max(ans,(r-l+1));
+                r++;
+                continue;
+            }
+            // 2nd condition where the element is already present inside the set
+            else if(it!=st.end()){
+                while( st.find(s[r])!=st.end() ){
+                    st.erase(st.find(s[l]));
+                    l++;
+                    ans=max(ans,(r-l+1));
+                }
+                continue;
+            }
+        }
+        
+    }
+};
